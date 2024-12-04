@@ -1,0 +1,412 @@
+[
+    {
+        "id": "f6f2187d.f17ca8",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "1e4c2fc5de024b25",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "st/iot/grupo7/vida",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "f30ae3932d48a13a",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 120,
+        "y": 80,
+        "wires": [
+            [
+                "5a657ddb63eae3d1",
+                "a5c80e0a30a95066",
+                "e9f43cdef40d9fdf"
+            ]
+        ]
+    },
+    {
+        "id": "b2be91ca4ead3cf7",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Select",
+        "func": "msg.topic = \"Select IdLaser,Disparos,DATE_FORMAT(FechaInicio, '%Y-%m-%d %H:%i:%s') AS FechaInicio,DATE_FORMAT(FechaTermino, '%Y-%m-%d %H:%i:%s') AS FechaTermino, Estado  from LaserTag\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 250,
+        "y": 240,
+        "wires": [
+            [
+                "71d34b9d27c71f5e"
+            ]
+        ]
+    },
+    {
+        "id": "e279d82ec593af1c",
+        "type": "ui_table",
+        "z": "f6f2187d.f17ca8",
+        "group": "c14081672b8c8138",
+        "name": "",
+        "order": 0,
+        "width": "15",
+        "height": "6",
+        "columns": [],
+        "outputs": 0,
+        "cts": false,
+        "x": 550,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "813537ab3fe16a66",
+        "type": "ui_ui_control",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "events": "all",
+        "x": 120,
+        "y": 240,
+        "wires": [
+            [
+                "b2be91ca4ead3cf7"
+            ]
+        ]
+    },
+    {
+        "id": "79ad8fa20a0a7d69",
+        "type": "ui_gauge",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "group": "37480a638b254f45",
+        "order": 2,
+        "width": "6",
+        "height": "5",
+        "gtype": "gage",
+        "title": "Vida del Jugador",
+        "label": "",
+        "format": "{{value}}",
+        "min": "0",
+        "max": "100",
+        "colors": [
+            "#d11f1f",
+            "#e6e600",
+            "#3acb52"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 430,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "79aa42f8f3fe1878",
+        "type": "ui_media",
+        "z": "f6f2187d.f17ca8",
+        "group": "37480a638b254f45",
+        "name": "",
+        "width": "6",
+        "height": "5",
+        "order": 1,
+        "category": "Imagen",
+        "file": "Diseño sin título.png",
+        "layout": "adjust",
+        "showcontrols": true,
+        "loop": true,
+        "onstart": false,
+        "scope": "local",
+        "tooltip": "",
+        "x": 310,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0bba14aebea14c00",
+        "type": "inject",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 280,
+        "wires": [
+            [
+                "79aa42f8f3fe1878"
+            ]
+        ]
+    },
+    {
+        "id": "a5c80e0a30a95066",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Insertar",
+        "func": "if(msg.payload == 100){\n    msg.topic = \"INSERT INTO LaserTag (FechaInicio, Estado) VALUES (now(),'Vivo')\";\nreturn msg;\n}else{\n    return null;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 280,
+        "y": 60,
+        "wires": [
+            [
+                "402f2841a349959e"
+            ]
+        ]
+    },
+    {
+        "id": "402f2841a349959e",
+        "type": "mysql",
+        "z": "f6f2187d.f17ca8",
+        "mydb": "893d3a3366a50580",
+        "name": "",
+        "x": 410,
+        "y": 60,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "34ca37df51380979",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "st/iot/grupo7/disparos",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "f30ae3932d48a13a",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 140,
+        "y": 180,
+        "wires": [
+            [
+                "509f1bcdb5542d8d"
+            ]
+        ]
+    },
+    {
+        "id": "5a657ddb63eae3d1",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Definir",
+        "func": "if(msg.payload < 0){\n    msg.payload = 0;\n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 270,
+        "y": 100,
+        "wires": [
+            [
+                "79ad8fa20a0a7d69"
+            ]
+        ]
+    },
+    {
+        "id": "509f1bcdb5542d8d",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Select",
+        "func": "msg.action = msg.payload;\nmsg.topic = \"SELECT IdLaser FROM LaserTag lt ORDER BY IdLaser DESC LIMIT 1\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 310,
+        "y": 180,
+        "wires": [
+            [
+                "a7b652c578713654"
+            ]
+        ]
+    },
+    {
+        "id": "a7b652c578713654",
+        "type": "mysql",
+        "z": "f6f2187d.f17ca8",
+        "mydb": "893d3a3366a50580",
+        "name": "",
+        "x": 430,
+        "y": 180,
+        "wires": [
+            [
+                "335475e8915f2df9"
+            ]
+        ]
+    },
+    {
+        "id": "335475e8915f2df9",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Update",
+        "func": "var disparos = msg.action;\nmsg.payload.forEach(function(id) {\n    var ides = id.IdLaser;\n    msg.topic = \"UPDATE LaserTag SET Disparos=\"+disparos+\", FechaTermino=NOW() , Estado='Muerto' WHERE IdLaser = \"+ides;\n});\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 180,
+        "wires": [
+            [
+                "5bb2f0793caa2d0d"
+            ]
+        ]
+    },
+    {
+        "id": "5bb2f0793caa2d0d",
+        "type": "mysql",
+        "z": "f6f2187d.f17ca8",
+        "mydb": "893d3a3366a50580",
+        "name": "",
+        "x": 690,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "71d34b9d27c71f5e",
+        "type": "mysql",
+        "z": "f6f2187d.f17ca8",
+        "mydb": "893d3a3366a50580",
+        "name": "BaseDeDatos",
+        "x": 400,
+        "y": 240,
+        "wires": [
+            [
+                "e279d82ec593af1c"
+            ]
+        ]
+    },
+    {
+        "id": "e9f43cdef40d9fdf",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 280,
+        "y": 20,
+        "wires": []
+    },
+    {
+        "id": "f30ae3932d48a13a",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "mqtt.eclipseprojects.io",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "c14081672b8c8138",
+        "type": "ui_group",
+        "name": "Datos almacenados:",
+        "tab": "284163cc5a8708e3",
+        "order": 1,
+        "disp": true,
+        "width": "15",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "37480a638b254f45",
+        "type": "ui_group",
+        "name": "",
+        "tab": "5c6e83c2687984e2",
+        "order": 1,
+        "disp": true,
+        "width": "12",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "893d3a3366a50580",
+        "type": "MySQLdatabase",
+        "name": "BD",
+        "host": "10.160.0.16",
+        "port": "3306",
+        "db": "IoT",
+        "tz": "",
+        "charset": "UTF8"
+    },
+    {
+        "id": "284163cc5a8708e3",
+        "type": "ui_tab",
+        "name": "LaserTag Info",
+        "icon": "dashboard",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "5c6e83c2687984e2",
+        "type": "ui_tab",
+        "name": "Vida del jugador",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    }
+]
